@@ -74,3 +74,18 @@ def test_delete_user():
     response = requests.delete("https://reqres.in/api/users/2")
 
     assert response.status_code == 204
+
+def test_create_user():
+    name = "morpheus"
+    job = "leader"
+
+    response = requests.post("https://reqres.in/api/users", data={"name": name, "job": job})
+    assert response.status_code == 201
+
+    body = response.json()
+    assert body['name'] == name
+    assert body['job'] == job
+
+def test_user_not_found():
+    response = requests.get("https://reqres.in/api/users/23")
+    assert response.status_code == 404
